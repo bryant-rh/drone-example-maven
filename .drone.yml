@@ -8,6 +8,8 @@ steps:
   - name: cache
     path: /root/.m2
   commands:
+    - pwd
+    - ls -l
     - mvn clean install
 
 - name: 构建镜像  
@@ -20,8 +22,8 @@ steps:
       from_secret: docker_user
     password: 
       from_secret: docker_pass
-    repo: {your-repo}
-    registry: {your-registry}
+    repo: cicd/drone_manven
+    registry: harbor.hitales.ai
     tags: ${DRONE_BUILD_NUMBER}
 
 - name: Kubernetes 部署
