@@ -28,7 +28,7 @@ spec:
         app: greenhouse
     spec:
       imagePullSecrets:
-      - name: pipeline-docker-registry
+      - name: myregistry
       containers:
       - name: maven
         image: harbor.hitales.ai/cicd/drone_maven:#Tag
