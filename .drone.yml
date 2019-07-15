@@ -22,7 +22,7 @@ steps:
       from_secret: docker_user
     password: 
       from_secret: docker_pass
-    repo: cicd/drone_manven
+    repo: harbor.hitales.ai/cicd/drone_maven
     registry: harbor.hitales.ai
     tags: ${DRONE_BUILD_NUMBER}
 
