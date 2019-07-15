@@ -33,6 +33,7 @@ steps:
     path: /root/.kube
   commands:
     - sed -i "s/#Tag/${DRONE_BUILD_NUMBER}/g" deployment.yaml
+    - sleep 120s
     - kubectl apply -f deployment.yaml
 
 - name: 钉钉通知
