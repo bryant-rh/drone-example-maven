@@ -1,0 +1,52 @@
+version: "3.7"
+services:
+  drone-server:
+    image: drone/drone:latest
+    container_name: drone-server
+    ports:
+      - "8000:80"
+      - "9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /data/drone/:/data/
+    environment:
+      - TZ=Asia/Shanghai
+      - DRONE_GITLAB_SERVER=xxxxxxxxxx # 设置GitLab的域名
+      - DRONE_USER_CREATE=username:root,admin:true
+      - DRONE_GITLAB_CLIENT_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxx
+      - DRONE_GITLAB_CLIENT_SECRET=xxxxxxxxxxxxxxxxxxxxxxxx
+      - DRONE_GIT_ALWAYS_AUTH=false
+      - DRONE_RUNNER_CAPACITY=2
+      - DRONE_SERVER_HOST=drone.com
+      - DRONE_SERVER_PROTO=https
+      - DRONE_RPC_SECRET=secret
+      - DRONE_TLS_AUTOCERT=false
+      - DRONE_LOGS_DEBUG=true
+      - DRONE_LOGS_COLOR=true
+    restart: always
+    networks:
+      - default
+
+  drone-agent:
+    image: drone/agent:latest
+    container_name: drone-agent
+    command: agent
+    depends_on:
+      - drone-server
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - TZ=Asia/Shanghai    
+      - DRONE_RPC_SERVER=drone-server:9000
+      - DRONE_RPC_SECRET=secret
+      - DRONE_RUNNER_CAPACITY=2
+      - DRONE_RUNNER_NAME=runer-1
+      - DRONE_LOGS_DEBUG=true
+      - DRONE_LOGS_COLOR=true
+    restart: always
+    networks:
+      - default
+
+networks:
+  default:
+
